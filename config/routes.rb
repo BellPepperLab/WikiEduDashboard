@@ -58,6 +58,8 @@ Rails.application.routes.draw do
         :as => :notify_untrained, constraints: { id: /.*/ }
     get 'courses/*id/needs_update' =>  'courses#needs_update',
         :as => :needs_update, constraints: { id: /.*/ }
+    get 'courses/*id/ores_plot' =>  'ores_plot#course_plot',
+        constraints: { id: /.*/ }
     get 'courses/*id/check' => 'courses#check',
         :as => :check, constraints: { id: /.*/ }
     match 'courses/*id/campaign' => 'courses#list',
@@ -81,6 +83,10 @@ Rails.application.routes.draw do
       }
   end
 
+  # Categories
+  post 'categories' => 'categories#add_category'
+  delete 'categories' => 'categories#remove_category'
+
   get 'lookups/campaign(.:format)' => 'lookups#campaign'
   get 'lookups/tag(.:format)' => 'lookups#tag'
   get 'lookups/article(.:format)' => 'lookups#article'
@@ -94,6 +100,10 @@ Rails.application.routes.draw do
   resources :blocks, only: [:show, :edit, :update, :destroy]
   resources :gradeables, collection: { update_multiple: :put }
   post 'courses/:course_id/timeline' => 'timeline#update_timeline',
+       constraints: { course_id: /.*/ }
+  post 'courses/:course_id/enable_timeline' => 'timeline#enable_timeline',
+       constraints: { course_id: /.*/ }
+  post 'courses/:course_id/disable_timeline' => 'timeline#disable_timeline',
        constraints: { course_id: /.*/ }
 
   get 'revisions' => 'revisions#index'
@@ -120,13 +130,13 @@ Rails.application.routes.draw do
   # Reports and analytics
   get 'analytics(/*any)' => 'analytics#index'
   post 'analytics(/*any)' => 'analytics#results'
+  get 'usage' => 'analytics#usage'
   get 'ungreeted' => 'analytics#ungreeted'
   get 'course_csv' => 'analytics#course_csv'
   get 'course_edits_csv' => 'analytics#course_edits_csv'
   get 'course_uploads_csv' => 'analytics#course_uploads_csv'
   get 'course_students_csv' => 'analytics#course_students_csv'
   get 'course_articles_csv' => 'analytics#course_articles_csv'
-
 
   # Campaigns
   resources :campaigns, param: :slug, except: :show do
@@ -138,6 +148,8 @@ Rails.application.routes.draw do
       get 'students'
       get 'instructors'
       get 'courses'
+      get 'ores_plot'
+      get 'articles_csv'
       put 'add_organizer'
       put 'remove_organizer'
       put 'remove_course'
@@ -147,6 +159,10 @@ Rails.application.routes.draw do
       controller: :campaigns,
       action: :show
   get 'campaigns/:slug', to: redirect('campaigns/%{slug}/programs')
+  get 'campaigns/:slug/programs/:courses_query',
+      controller: :campaigns,
+      action: :programs,
+      to: 'campaigns/%{slug}/programs?courses_query=%{courses_query}'
 
   # Recent Activity
   get 'recent-activity/plagiarism/report' => 'recent_activity#plagiarism_report'
@@ -214,7 +230,6 @@ Rails.application.routes.draw do
   get '/surveys/results' => 'surveys#results_index', as: 'results'
   resources :survey_assignments, path: 'surveys/assignments'
   post '/survey_assignments/:id/send_test_email' => 'survey_assignments#send_test_email', as: 'send_test_email'
-  post '/surveys/clone/:id' => 'surveys#clone'
   put '/surveys/question_position' => 'questions#update_position'
   get '/survey/results/:id' => 'surveys#results', as: 'survey_results'
   get '/survey/question/results/:id' => 'questions#results', as: 'question_results'
@@ -236,6 +251,7 @@ Rails.application.routes.draw do
 
   # Update Locale Preference
   post '/update_locale/:locale' => 'users#update_locale', as: :update_locale
+  get '/update_locale/:locale' => 'users#update_locale'
 
   # Route aliases for React frontend
   get '/course_creator(/*any)' => 'dashboard#index', as: :course_creator

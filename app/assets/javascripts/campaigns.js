@@ -88,6 +88,7 @@ $(() => {
     const list = (() => {
       switch ($(this).attr('rel')) {
         case 'campaigns': return campaignList;
+        case 'articles': return articlesList;
         default: break;
       } })();
     if (list) {

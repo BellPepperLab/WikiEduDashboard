@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const EnrollCard = ({
   user, userRoles, course, courseLink, passcode, enrolledParam, enrollFailureReason
@@ -49,10 +50,10 @@ const EnrollCard = ({
         <p>{I18n.t('courses.invitation_username_advice')}</p>
         <p>
           <a href={`/users/auth/mediawiki?origin=${window.location}`} className="button auth dark">
-            <i className="icon icon-wiki-logo"></i> {I18n.t('application.log_in_extended')}
+            <i className="icon icon-wiki-logo" /> {I18n.t('application.log_in_extended')}
           </a>
           <a href={`/users/auth/mediawiki_signup?origin=${window.location}`} className="button auth signup border">
-            <i className="icon icon-wiki-logo"></i> {I18n.t('application.sign_up_extended')}
+            <i className="icon icon-wiki-logo" /> {I18n.t('application.sign_up_extended')}
           </a>
         </p>
       </div>
@@ -61,7 +62,7 @@ const EnrollCard = ({
 
   const closeLink = (
     <svg className="close" tabIndex="0" viewBox="0 0 24 24" preserveAspectRatio="xMidYMid meet" style={{ fill: 'currentcolor', verticalAlign: 'middle', width: '32px', height: '32px' }} >
-      <g><path d="M19 6.41l-1.41-1.41-5.59 5.59-5.59-5.59-1.41 1.41 5.59 5.59-5.59 5.59 1.41 1.41 5.59-5.59 5.59 5.59 1.41-1.41-5.59-5.59z"></path></g>
+      <g><path d="M19 6.41l-1.41-1.41-5.59 5.59-5.59-5.59-1.41 1.41 5.59 5.59-5.59 5.59 1.41 1.41 5.59-5.59 5.59 5.59 1.41-1.41-5.59-5.59z" /></g>
     </svg>
   );
 
@@ -76,13 +77,13 @@ const EnrollCard = ({
 };
 
 EnrollCard.propTypes = {
-  user: React.PropTypes.object,
-  userRoles: React.PropTypes.object,
-  course: React.PropTypes.object,
-  courseLink: React.PropTypes.string,
-  passcode: React.PropTypes.string,
-  enrolledParam: React.PropTypes.string,
-  enrollFailureReason: React.PropTypes.string
+  user: PropTypes.object,
+  userRoles: PropTypes.object,
+  course: PropTypes.object,
+  courseLink: PropTypes.string,
+  passcode: PropTypes.string,
+  enrolledParam: PropTypes.string,
+  enrollFailureReason: PropTypes.string
 };
 
 export default EnrollCard;
