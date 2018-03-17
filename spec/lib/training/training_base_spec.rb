@@ -1,9 +1,14 @@
 # frozen_string_literal: true
+
 require 'rails_helper'
 require "#{Rails.root}/lib/training/training_base"
 require "#{Rails.root}/lib/training_module"
 
 describe TrainingBase do
+  before do
+    allow(Features).to receive(:wiki_trainings?).and_return(false)
+  end
+
   describe 'abstract parent class' do
     it 'raises errors for required template instance methods' do
       subject = TrainingBase.new({}, 'foo')
@@ -56,7 +61,7 @@ describe TrainingBase do
     context 'when training_path is set' do
       before do
         allow(ENV).to receive(:[]).and_call_original
-        allow(ENV).to receive(:[]).with('training_path').and_return('training_content/generic')
+        allow(ENV).to receive(:[]).with('training_path').and_return('training_content/wiki_ed')
       end
       it 'loads trainings from that path' do
         TrainingSlide.load

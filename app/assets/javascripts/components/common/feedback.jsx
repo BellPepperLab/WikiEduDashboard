@@ -1,21 +1,23 @@
 
 import React from 'react';
+import createReactClass from 'create-react-class';
+import PropTypes from 'prop-types';
 import OnClickOutside from 'react-onclickoutside';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as FeedbackAction from '../../actions/feedback_action.js';
 import API from '../../utils/api.js';
-const Feedback = React.createClass({
+const Feedback = createReactClass({
   displayName: 'Feedback',
 
   propTypes: {
-    fetchFeedback: React.PropTypes.func,
-    postUserFeedback: React.PropTypes.func,
-    current_user: React.PropTypes.object,
-    deleteUserFeedback: React.PropTypes.func,
-    feedback: React.PropTypes.object,
-    assignment: React.PropTypes.object.isRequired,
-    username: React.PropTypes.string
+    fetchFeedback: PropTypes.func,
+    postUserFeedback: PropTypes.func,
+    current_user: PropTypes.object,
+    deleteUserFeedback: PropTypes.func,
+    feedback: PropTypes.object,
+    assignment: PropTypes.object.isRequired,
+    username: PropTypes.string
   },
 
   getInitialState() {
@@ -87,7 +89,7 @@ const Feedback = React.createClass({
     // Title set based on if the article exists in mainspace
     let button;
     if (this.state.show) {
-      button = <button onClick={this.hide} className="okay icon-close"></button>;
+      button = <button onClick={this.hide} className="okay icon-close" />;
     } else {
       button = <a onClick={this.show} className="button dark small">{I18n.t('courses.feedback')}</a>;
     }

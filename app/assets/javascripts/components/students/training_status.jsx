@@ -1,8 +1,9 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const TrainingStatus = ({ trainingModules }) => {
   if (!trainingModules.length) {
-    return <div></div>;
+    return <div />;
   }
   const moduleRows = trainingModules.map((trainingModule) => {
     let moduleStatus;
@@ -43,7 +44,7 @@ const TrainingStatus = ({ trainingModules }) => {
 };
 
 TrainingStatus.propTypes = {
-  trainingModules: React.PropTypes.array
+  trainingModules: PropTypes.array
 };
 
 export default TrainingStatus;

@@ -6,15 +6,15 @@ require "#{Rails.root}/lib/training/wiki_slide_parser"
 # TrainingLibrary, TrainingModule, TrainingSlide
 # Source of content is training_content yaml files and/or wiki pages.
 class TrainingLoader
-  def initialize(content_class:, path_to_yaml:, trim_id_from_filename:, wiki_base_page:)
+  def initialize(content_class:, slug_whitelist: nil)
     @content_class = content_class # TrainingLibrary, TrainingModule, or TrainingSlide
-    @cache_key = content_class.cache_key
 
-    @path_to_yaml = path_to_yaml # a sub-directory of training_content
-    @trim_id_from_filename = trim_id_from_filename
+    @slug_whitelist = slug_whitelist # limited list of slugs to process (optional)
+
+    @path_to_yaml = content_class.path_to_yaml # a sub-directory of training_content
 
     # Index page that links to all the libraries, modules or slides to be loaded
-    @wiki_base_page = wiki_base_page
+    @wiki_base_page = content_class.wiki_base_page
 
     @collection = []
   end
@@ -22,7 +22,6 @@ class TrainingLoader
   def load_content
     load_from_yaml
     load_from_wiki if Features.wiki_trainings?
-    Rails.cache.write @cache_key, @collection
     return @collection
   end
 
@@ -39,7 +38,7 @@ class TrainingLoader
 
   def new_from_file(yaml_file)
     slug = File.basename(yaml_file, '.yml')
-    slug.gsub!(/^[0-9]+-/, '') if @trim_id_from_filename
+    slug.gsub!(/^[0-9]+-/, '') if @content_class.trim_id_from_filename
 
     content = YAML.load_file(yaml_file).to_hashugar
     @content_class.new(content, slug)
@@ -52,7 +51,9 @@ class TrainingLoader
   CONCURRENCY = 30 # Maximum simultaneous requests to mediawiki
   def load_from_wiki
     Raven.capture_message 'Loading trainings from wiki', level: 'info'
-    source_pages = wiki_source_pages
+    source_pages = @slug_whitelist ? whitelisted_wiki_source_pages : wiki_source_pages
+    raise_no_matching_wiki_pages_error if source_pages.empty?
+
     thread_count = [CONCURRENCY, source_pages.count].min
     threads = source_pages.in_groups(thread_count, false).map.with_index do |wiki_page_group, i|
       Thread.new(i) { add_trainings_to_collection(wiki_page_group) }
@@ -77,7 +78,7 @@ class TrainingLoader
 
   def new_from_wiki_page(wiki_page)
     wikitext = WikiApi.new(MetaWiki.new).get_page_content(wiki_page)
-    return unless wikitext # Handle wiki pages that don't exist.
+    return if wikitext.blank? # Handle wiki pages that don't exist.
 
     # Handles either json pages or regular wikitext pages
     content = if wiki_page[-5..-1] == '.json'
@@ -104,13 +105,7 @@ class TrainingLoader
 
   # wikitext pages have the slide id and slug embedded in the page title
   def new_from_wikitext_page(wiki_page, wikitext)
-    # Extract the slug and slide id from the last segment of the wiki page title
-    # The expected form is something like "Training modules/dashboard/slides/20201-about-campaigns"
-    id_and_slug = wiki_page.split('/').last
-    slug = id_and_slug.gsub(/^[0-9]+-/, '')
-    id = id_and_slug[/^[0-9]+/]
-    content = { 'id' => id, 'slug' => slug }
-
+    content = slug_and_id_from(wiki_page)
     training_content_and_translations(content: content, base_page: wiki_page, wikitext: wikitext)
   end
 
@@ -126,17 +121,20 @@ class TrainingLoader
   end
 
   # Gets a list of page titles linked from the base page
-  def wiki_source_pages(base_page: nil)
-    link_source = base_page || @wiki_base_page
+  def wiki_source_pages
     # To handle more than 500 pages linked from the source page,
     # we'll need to update this to use 'continue'.
-    query_params = { prop: 'links', titles: link_source, pllimit: 500 }
+    query_params = { prop: 'links', titles: @wiki_base_page, pllimit: 500 }
     response = WikiApi.new(MetaWiki.new).query(query_params)
     begin
       response.data['pages'].values[0]['links'].map { |page| page['title'] }
     rescue
-      raise InvalidWikiContentError, "could not get links from '#{link_source}'"
+      raise InvalidWikiContentError, "could not get links from '#{@wiki_base_page}'"
     end
+  end
+
+  def whitelisted_wiki_source_pages
+    wiki_source_pages.select { |page| @slug_whitelist.include? slug_from(page) }
   end
 
   def translated_pages(base_page:, base_page_wikitext:)
@@ -169,5 +167,28 @@ class TrainingLoader
     end
   end
 
+  def slug_and_id_from(wiki_page)
+    # Extract the slug and slide id from the last segment of the wiki page title
+    # The expected form is something like "Training modules/dashboard/slides/20201-about-campaigns"
+    id_and_slug = wiki_page.split('/').last
+    slug = id_and_slug.gsub(/^[0-9]+-/, '')
+    id = id_and_slug[/^[0-9]+/].to_i
+    { 'id' => id, 'slug' => slug }
+  end
+
+  def slug_from(wiki_page)
+    wiki_page.split('/').last.gsub(/^[0-9]+-/, '').gsub('.json', '')
+  end
+
+  def raise_no_matching_wiki_pages_error
+    message = <<~ERROR
+      Error: no wiki pages found from among #{@slug_whitelist}.
+
+      Link them from '#{@wiki_base_page}'.
+    ERROR
+    raise NoMatchingWikiPagesFound, message
+  end
+
   class InvalidWikiContentError < StandardError; end
+  class NoMatchingWikiPagesFound < StandardError; end
 end
