@@ -43,6 +43,8 @@
 #  needs_update          :boolean          default(FALSE)
 #  chatroom_id           :string(255)
 #  flags                 :text(65535)
+#  level                 :string(255)
+#  private               :boolean          default(FALSE)
 #
 
 class BasicCourse < Course
@@ -55,7 +57,10 @@ class BasicCourse < Course
   end
 
   def wiki_title
-    nil
+    return nil unless home_wiki.edits_enabled?
+    prefix = ENV['course_prefix'] + '/'
+    escaped_slug = slug.tr(' ', '_')
+    "#{prefix}#{escaped_slug}"
   end
 
   def string_prefix

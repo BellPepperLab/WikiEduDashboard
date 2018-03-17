@@ -16,6 +16,7 @@
 #  target_user_id :integer
 #  subject_id     :integer
 #  resolved       :boolean          default(FALSE)
+#  details        :text(65535)
 #
 
 class Alert < ActiveRecord::Base
@@ -27,16 +28,21 @@ class Alert < ActiveRecord::Base
 
   include ArticleHelper
 
+  serialize :details, Hash
+
   ALERT_TYPES = %w[
     ActiveCourseAlert
     ArticlesForDeletionAlert
+    BlockedEditsAlert
     ContinuedCourseActivityAlert
     DeletedUploadsAlert
+    DiscretionarySanctionsEditAlert
     DYKNominationAlert
     NeedHelpAlert
     NoEnrolledStudentsAlert
     ProductiveCourseAlert
     SurveyResponseAlert
+    UnsubmittedCourseAlert
     UntrainedStudentsAlert
   ].freeze
   validates_inclusion_of :type, in: ALERT_TYPES
@@ -44,6 +50,7 @@ class Alert < ActiveRecord::Base
   RESOLVABLE_ALERT_TYPES = %w[
     ArticlesForDeletionAlert
     ContinuedCourseActivityAlert
+    DiscretionarySanctionsEditAlert
     DYKNominationAlert
   ].freeze
 

@@ -12,6 +12,7 @@ class WikiCourseEdits
 
   def initialize(action:, course:, current_user:, **opts)
     return unless course.wiki_edits_enabled?
+    return if course.private # Never make edits for private courses.
     @course = course
     # Edits can only be made to the course's home wiki through WikiCourseEdits
     @home_wiki = course.home_wiki
@@ -29,22 +30,18 @@ class WikiCourseEdits
   # It simply overwrites the previous version.
   def update_course(delete: false)
     return unless @course.wiki_course_page_enabled?
-
     wiki_text = delete ? '' : WikiCourseOutput.new(@course, @templates).translate_course_to_wikitext
-
-    course_prefix = ENV['course_prefix']
-    wiki_title = "#{course_prefix}/#{@course.slug}"
 
     summary = "Updating course from #{@dashboard_url}"
 
     # Post the update
-    response = @wiki_editor.post_whole_page(@current_user, wiki_title, wiki_text, summary)
+    response = @wiki_editor.post_whole_page(@current_user, @course.wiki_title, wiki_text, summary)
     return response unless response['edit']
 
     # If it hit the spam blacklist, replace the offending links and try again.
     blacklist = response['edit']['spamblacklist']
     return response if blacklist.nil?
-    repost_with_sanitized_links(wiki_title, wiki_text, summary, blacklist)
+    repost_with_sanitized_links(@course.wiki_title, wiki_text, summary, blacklist)
   end
 
   # Posts to the instructor's userpage, and also makes a public
@@ -61,20 +58,23 @@ class WikiCourseEdits
   # already exist.
   def enroll_in_course(enrolling_user:)
     # Add a template to the user page
-    template = "{{#{template_name(@templates, 'editor')}|course = [[#{@course.wiki_title}]] }}\n"
+    template = "{{#{template_name(@templates, 'editor')}|course = [[#{@course.wiki_title}]]"\
+               " | slug = #{@course.slug} }}\n"
     user_page = "User:#{enrolling_user.username}"
     summary = "User has enrolled in [[#{@course.wiki_title}]]."
     @wiki_editor.add_to_page_top(user_page, @current_user, template, summary)
 
     # Add a template to the user's talk page
-    talk_template = "{{#{@dashboard_url} user talk|course = [[#{@course.wiki_title}]] }}\n"
+    talk_template = "{{#{template_name(@templates, 'user_talk')}|course = [[#{@course.wiki_title}]]"\
+                    " | slug = #{@course.slug} }}\n"
     talk_page = "User_talk:#{enrolling_user.username}"
-    talk_summary = "adding {{#{@dashboard_url} user talk}}"
+    talk_summary = "adding {{#{template_name(@templates, 'user_talk')}}}"
     @wiki_editor.add_to_page_top(talk_page, @current_user, talk_template, talk_summary)
 
     # Pre-create the user's sandbox
     # TODO: Do this more selectively, replacing the default template if
     # it is present.
+    return unless Features.wiki_ed?
     sandbox = user_page + '/sandbox'
     sandbox_template = "{{#{@dashboard_url} sandbox}}"
     sandbox_summary = "adding {{#{@dashboard_url} sandbox}}"
@@ -129,7 +129,6 @@ class WikiCourseEdits
     @wiki_editor.add_to_page_top(user_page, @current_user, template, summary)
   end
 
-
   def announce_course_on_announcement_page(instructor)
     announcement_page = ENV['course_announcement_page']
     # rubocop:disable Metrics/LineLength
@@ -156,7 +155,7 @@ class WikiCourseEdits
   def update_assignments_for_article(title:, assignments_for_same_article:)
     return if WikiApi.new(@home_wiki).redirect?(title)
 
-    # TODO: i18n of talk namespace
+    # MediaWiki will automatically handle i18n of the namespace
     talk_title = "Talk:#{title.tr(' ', '_')}"
 
     page_content = WikiAssignmentOutput.wikitext(course: @course,

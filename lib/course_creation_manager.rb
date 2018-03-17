@@ -6,10 +6,12 @@ require "#{Rails.root}/lib/tag_manager"
 class CourseCreationManager
   attr_reader :wiki, :invalid_reason
 
-  def initialize(course_params, wiki_params, initial_campaign_params, current_user)
+  def initialize(course_params, wiki_params, initial_campaign_params,
+                 instructor_role_description, current_user)
     @course_params = course_params
     @wiki_params = wiki_params
     @initial_campaign_params = initial_campaign_params
+    @role_description = instructor_role_description
     @instructor = current_user
     @overrides = {}
     set_wiki
@@ -88,17 +90,21 @@ class CourseCreationManager
   def set_initial_campaign
     return unless Features.open_course_creation?
 
-    if @initial_campaign_params.present?
-      @overrides[:campaigns] = [Campaign.find_by_id(@initial_campaign_params[:initial_campaign_id])]
-    else
-      @overrides[:campaigns] = [Campaign.default_campaign]
-    end
+    @overrides[:campaigns] = if @initial_campaign_params.present?
+                               [Campaign.find_by_id(@initial_campaign_params[:initial_campaign_id])]
+                             else
+                               [Campaign.default_campaign]
+                             end
   end
 
   def add_instructor_to_course
-    CoursesUsers.create(user: @instructor,
-                        course: @course,
-                        role: CoursesUsers::Roles::INSTRUCTOR_ROLE)
+    # Creating a course is analogous to self-enrollment; it is intentional on the
+    # part of the user, so we associate the real name with the course.
+    JoinCourse.new(user: @instructor,
+                   course: @course,
+                   role: CoursesUsers::Roles::INSTRUCTOR_ROLE,
+                   real_name: @instructor.real_name,
+                   role_description: @role_description)
   end
 
   def add_tags_to_course

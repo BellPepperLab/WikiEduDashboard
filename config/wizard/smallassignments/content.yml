@@ -28,7 +28,7 @@ essentials:
             be following as well.
           </p>
           <p>
-            Your course has also been assigned a Wikipedia Content Expert. Check
+            Your course has also been assigned a Wikipedia Expert. Check
             your Talk page for notes from them. You can also reach them through
             the "<strong>Get Help</strong>" button on this page.
           </p>
@@ -36,8 +36,8 @@ essentials:
             To get started, please review the following handouts:
           </p>
           <ul>
-            <li><a href="http://wikiedu.org/editingwikipedia">Editing Wikipedia</a> pages 1–5</li>
-            <li><a href="http://wikiedu.org/evaluatingwikipedia">Evaluating Wikipedia</a></li>
+            <li><a href="https://wikiedu.org/editingwikipedia">Editing Wikipedia</a> pages 1–5</li>
+            <li><a href="https://wikiedu.org/evaluatingwikipedia">Evaluating Wikipedia</a></li>
           </ul>
 
       -
@@ -64,6 +64,37 @@ essentials:
             <li>
               When you finish the trainings, practice by introducing yourself to
               a classmate on that classmate’s Talk page.
+            </li>
+          </ul>
+
+      -
+        if: working_in_groups
+        title: Best practices for working in groups
+        kind: 1
+        content: |
+          <ul>
+            <li>
+              Make sure everyone in the group is assigned to the same Wikipedia
+              article on the Students tab of this course page.
+            </li>
+            <li>
+              Select one group member whose Sandbox space you'll all share to
+              draft your article. Each person should link to that shared Sandbox
+              from their own Sandbox page. A sandbox is like any other page on
+              Wikipedia, and anyone can edit it.
+            </li>
+            <li>
+              Wikipedia doesn't allow multiple people to edit from different
+              devices at the same time. If you're working together in person,
+              one person should add the work to the Sandbox. If you are all
+              working independently, make small edits and save often to avoid
+              "editing conflicts" with classmates. Make sure that you're logged
+              in under your own Wikipedia account while editing in your
+              classmate's sandbox to ensure your edits are recorded.
+            </li>
+            <li>
+              Don't create a group account for your project. Group accounts are
+              prohibited.
             </li>
           </ul>
 
@@ -156,8 +187,8 @@ illustrate:
           <p>You'll want to find or create an appropriate photo, illustration, or piece of video/audio to add to an article.</p>
           <ul>
             <li>
-              Before you start, review the <a href="http://wikiedu.org/illustratingwikipedia">Illustrating Wikipedia</a> handbook,
-              or see <a href="http://wikiedu.org/editingwikipedia">Editing Wikipedia</a> pages 10–11.
+              Before you start, review the <a href="https://wikiedu.org/illustratingwikipedia">Illustrating Wikipedia</a> handbook,
+              or see <a href="https://wikiedu.org/editingwikipedia">Editing Wikipedia</a> pages 10–11.
             </li>
             <li>When you've reviewed those pages, take the training linked below.</li>
             <li>
@@ -167,12 +198,12 @@ illustrate:
               "free stock photo" websites. Instead, you'll want to find images
               with clear proof that the creator has given permission to use their
               work. Many of these images can be found on
-              <a href="http://search.creativecommons.org/">search.creativecommons.org</a>.
+              <a href="https://search.creativecommons.org/">search.creativecommons.org</a>.
             </li>
             <li>
                Don't just upload an image to Wikipedia. Instead, upload it to
                Wikipedia's sister site for images, Wikimedia Commons. For
-               instructions, read through the <a href="http://wikiedu.org/illustratingwikipedia">Illustrating Wikipedia</a> handbook.
+               instructions, read through the <a href="https://wikiedu.org/illustratingwikipedia">Illustrating Wikipedia</a> handbook.
             </li>
           </ul>
 

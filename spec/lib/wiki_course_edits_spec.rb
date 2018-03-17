@@ -51,7 +51,7 @@ describe WikiCourseEdits do
     context 'makes correct edits on the Wiki Education Dashboard' do
       it 'posts to dashboard using correct templates' do
         expect_any_instance_of(WikiEdits).to receive(:add_to_page_top)
-          .with("User:Ragesock",
+          .with('User:Ragesock',
                 user,
                 "{{course instructor|course = [[#{course.wiki_title}]] }}\n",
                 "New course announcement: [[#{course.wiki_title}]].")
@@ -65,7 +65,7 @@ describe WikiCourseEdits do
     context 'makes correct edits on P&E Outreach Dashboard' do
       before :each do
         @dashboard_url = ENV['dashboard_url']
-        ENV['dashboard_url'] = "outreachdashboard.wmflabs.org"
+        ENV['dashboard_url'] = 'outreachdashboard.wmflabs.org'
       end
 
       after :each do
@@ -84,7 +84,7 @@ describe WikiCourseEdits do
 
         it 'posts to P&E Dashboard with correct template' do
           expect_any_instance_of(WikiEdits).to receive(:add_to_page_top)
-            .with("User:Ragesock",
+            .with('User:Ragesock',
                   user,
                   "{{program instructor|course = [[#{course.wiki_title}]] }}\n",
                   "New course announcement: [[#{course.wiki_title}]].")
@@ -97,7 +97,7 @@ describe WikiCourseEdits do
 
       context 'for disabled projects' do
         before { stub_wiki_validation }
-        let(:wiki) {create(:wiki, language: 'pt', project: 'wikipedia') }
+        let(:wiki) { create(:wiki, language: 'pt', project: 'wikipedia') }
         let(:course) { create(:course, id: 1, submitted: true, home_wiki_id: wiki.id) }
 
         it 'does not post to P&E Dashboard' do
@@ -125,7 +125,7 @@ describe WikiCourseEdits do
     context 'makes correct edits on P&E Outreach Dashboard' do
       before :each do
         @dashboard_url = ENV['dashboard_url']
-        ENV['dashboard_url'] = "outreachdashboard.wmflabs.org"
+        ENV['dashboard_url'] = 'outreachdashboard.wmflabs.org'
       end
 
       after do
@@ -134,7 +134,9 @@ describe WikiCourseEdits do
 
       context 'for enabled projects' do
         it 'posts to P&E Dashboard' do
-          expect_any_instance_of(WikiEdits).to receive(:add_to_page_top).thrice
+          # Only twice for outreachdashboard, for user page and talk page.
+          # Sandbox templates are skipped for non-Wiki Ed edits.
+          expect_any_instance_of(WikiEdits).to receive(:add_to_page_top).twice
           WikiCourseEdits.new(action: :enroll_in_course,
                               course: course,
                               current_user: user,
@@ -144,7 +146,7 @@ describe WikiCourseEdits do
 
       context 'for disabled projects' do
         before { stub_wiki_validation }
-        let(:wiki) {create(:wiki, language: 'pt', project: 'wikipedia')}
+        let(:wiki) { create(:wiki, language: 'pt', project: 'wikipedia') }
         let(:course) { create(:course, id: 1, submitted: true, home_wiki_id: wiki.id) }
 
         it 'does not post to P&E Dashboard' do
@@ -220,7 +222,7 @@ describe WikiCourseEdits do
         context 'makes correct edits on P&E Outreach Dashboard' do
           before :each do
             @dashboard_url = ENV['dashboard_url']
-            ENV['dashboard_url'] = "outreachdashboard.wmflabs.org"
+            ENV['dashboard_url'] = 'outreachdashboard.wmflabs.org'
           end
 
           after do
@@ -294,11 +296,10 @@ describe WikiCourseEdits do
     end
   end
 
-  context 'for course types that do not make edits' do
+  context 'for course types that DO NOT make edits' do
     let(:visiting_scholarship) { create(:visiting_scholarship, submitted: true) }
     let(:editathon) { create(:editathon, submitted: true) }
     let(:legacy_course) { create(:legacy_course) }
-    let(:basic_course) { create(:basic_course, submitted: true) }
 
     it 'returns immediately without making any edits' do
       expect_any_instance_of(WikiEdits).not_to receive(:post_whole_page)
@@ -308,10 +309,18 @@ describe WikiCourseEdits do
       WikiCourseEdits.new(action: :update_course,
                           course: editathon,
                           current_user: user)
-      WikiCourseEdits.new(action: :update_assignments,
+      WikiCourseEdits.new(action: :update_course,
                           course: legacy_course,
                           current_user: user)
-      WikiCourseEdits.new(action: :update_assignments,
+    end
+  end
+
+  context 'for course types that DO make edits' do
+    let(:basic_course) { create(:basic_course, submitted: true) }
+
+    it 'makes edits' do
+      expect_any_instance_of(WikiEdits).to receive(:post_whole_page).and_call_original
+      WikiCourseEdits.new(action: :update_course,
                           course: basic_course,
                           current_user: user)
     end

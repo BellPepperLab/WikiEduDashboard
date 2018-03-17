@@ -1,18 +1,21 @@
 import React from 'react';
+import createReactClass from 'create-react-class';
+import PropTypes from 'prop-types';
 import MainspaceChecklist from '../common/mainspace_checklist.jsx';
 import FinalArticleChecklist from '../common/final_article_checklist.jsx';
 import PeerReviewChecklist from '../common/peer_review_checklist.jsx';
 import CourseUtils from '../../utils/course_utils.js';
 import Feedback from '../common/feedback.jsx';
 
-const MyAssignment = React.createClass({
+const MyAssignment = createReactClass({
   displayName: 'MyAssignment',
 
   propTypes: {
-    assignment: React.PropTypes.object.isRequired,
-    course: React.PropTypes.object.isRequired,
-    username: React.PropTypes.string,
-    last: React.PropTypes.bool
+    assignment: PropTypes.object.isRequired,
+    current_user: PropTypes.object,
+    course: PropTypes.object.isRequired,
+    username: PropTypes.string,
+    last: PropTypes.bool
   },
 
   isEnglishWikipedia() {
@@ -46,7 +49,7 @@ const MyAssignment = React.createClass({
       assignmentType = 'Creating a new article: ';
       if (isEnglishWikipedia) {
         checklist = <MainspaceChecklist />;
-        feedback = <Feedback assignment={this.props.assignment} username={this.props.username} />;
+        feedback = <Feedback assignment={this.props.assignment} username={this.props.username} current_user={this.props.current_user} />;
         sandbox = <div><a className="button dark small" href={`https://en.wikipedia.org/wiki/User:${this.props.username}/sandbox`} target="_blank">Sandbox</a></div>;
         sandboxTalk = <div><a className="button dark small" href={`https://en.wikipedia.org/wiki/User_talk:${this.props.username}/sandbox`} target="_blank">Sandbox talk</a></div>;
       }
@@ -54,7 +57,7 @@ const MyAssignment = React.createClass({
     } else if (this.props.assignment.role === 0) {
       if (isEnglishWikipedia) {
         checklist = <FinalArticleChecklist />;
-        feedback = <Feedback assignment={this.props.assignment} username={this.props.username} />;
+        feedback = <Feedback assignment={this.props.assignment} username={this.props.username} current_user={this.props.current_user} />;
       }
       assignmentType = 'Improving: ';
     // Review assignment

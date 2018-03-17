@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 #= Stubs for various requests
 module RequestHelpers
   ##################
@@ -51,6 +52,24 @@ module RequestHelpers
       "info":"The \"templateeditor\" right is required to edit this page",
       "*":"See https://en.wikipedia.org/w/api.php for API usage"}}'
     stub_request(:post, /.*wikipedia.*/)
+      .to_return(status: 200, body: failure, headers: {})
+  end
+
+  def stub_edit_failure_blocked
+    stub_token_request
+    failure = '{"servedby":"mw1135", "error":{"code":"blocked",
+      "info":"You have been blocked from editing.",
+      "*":"See http://en.wikipedia.org/w/api.php for API usage"}}'
+    stub_request(:post, /.*wikipedia*/)
+      .to_return(status: 200, body: failure, headers: {})
+  end
+
+  def stub_edit_failure_autoblocked
+    stub_token_request
+    failure = '{"servedby":"mw1135", "error":{"code":"autoblocked",
+      "info":"Your IP address has been blocked automatically.",
+      "*":"See http://en.wikipedia.org/w/api.php for API usage"}}'
+    stub_request(:post, /.*wikipedia*/)
       .to_return(status: 200, body: failure, headers: {})
   end
 
@@ -116,6 +135,16 @@ module RequestHelpers
   def stub_info_query
     stub_request(:get, /.*&prop=info.*/)
       .to_return(status: 200, body: '{}', headers: {})
+  end
+
+  def stub_list_users_query
+    stub_request(:get, /.*list=users.*/)
+      .to_return(status: 200, body: '{"users":[{"emailable":""}]}', headers: {})
+  end
+
+  def stub_list_users_query_with_no_email
+    stub_request(:get, /.*list=users.*/)
+      .to_return(status: 200, body: '{"users":[{}]}', headers: {})
   end
 
   def stub_wikipedia_503_error

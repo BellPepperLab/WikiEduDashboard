@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require "#{Rails.root}/lib/training/training_loader"
 
 class TrainingBase
@@ -14,21 +15,32 @@ class TrainingBase
   #################
 
   # called for each child class in initializers/training_content.rb
-  def self.load(path_to_yaml:, wiki_base_page:,
-                trim_id_from_filename: false)
-    self.path_to_yaml = path_to_yaml
+  def self.load(slug_whitelist: nil)
+    loader = TrainingLoader.new(content_class: self, slug_whitelist: slug_whitelist)
 
-    loader = TrainingLoader.new(content_class: self, path_to_yaml: path_to_yaml,
-                                wiki_base_page: wiki_base_page,
-                                trim_id_from_filename: trim_id_from_filename)
+    @all = if slug_whitelist
+             merge_content loader.load_content
+           else
+             loader.load_content
+           end
 
-    @all = loader.load_content
     check_for_duplicate_slugs
     check_for_duplicate_ids
+    Rails.cache.write cache_key, @all
+
     @all
   end
 
-  # Called during initialization, and also via manual :training_reload action.
+  def self.merge_content(updated_content)
+    new_slugs = updated_content.map(&:slug)
+    # @all may be nil or an array of training objects
+    old_without_new = Array(@all).reject do |training_unit|
+      new_slugs.include? training_unit.slug
+    end
+    old_without_new + updated_content
+  end
+
+  # Called during manual :training_reload action.
   # This should regenerate all training content from yml files and/or wiki.
   def self.load_all
     TrainingLibrary.flush
@@ -40,7 +52,7 @@ class TrainingBase
   end
 
   # Use class instance variable @all to store all training content in memory.
-  # This will normally persist until flushed or until the app is restarted.
+  # This will normally persist until flushed.
   def self.all
     @all ||= load_from_cache_or_rebuild
   end

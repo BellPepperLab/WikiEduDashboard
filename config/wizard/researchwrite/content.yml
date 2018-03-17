@@ -6,7 +6,7 @@
 # 1. Assignment
 # 2. Milestone
 # 3. Custom
-# 4. Training
+# 4. Handouts
 
 # Week weight
 # - The app will attempt to evenly distribute weights across the course timeline
@@ -32,7 +32,7 @@ essentials:
             you get started on Wikipedia.
           </p>
           <p>
-            Your course has also been assigned a Wikipedia Content Expert. Check
+            Your course has also been assigned a Wikipedia Expert. Check
             your Talk page for notes from them. You can also reach them through
             the "<strong>Get Help</strong>" button on this page.
           </p>
@@ -40,8 +40,8 @@ essentials:
             To get started, please review the following handouts:
           </p>
           <ul>
-            <li><a href="http://wikiedu.org/editingwikipedia">Editing Wikipedia</a> pages 1–5</li>
-            <li><a href="http://wikiedu.org/evaluatingwikipedia">Evaluating Wikipedia</a></li>
+            <li><a href="https://wikiedu.org/editingwikipedia">Editing Wikipedia</a> pages 1–5</li>
+            <li><a href="https://wikiedu.org/evaluatingwikipedia">Evaluating Wikipedia</a></li>
           </ul>
 
       -
@@ -253,8 +253,8 @@ essentials:
           <p>You'll want to find or create an appropriate photo, illustration, or piece of video/audio to add to an article.</p>
           <ul>
             <li>
-              Before you start, review the <a href="http://wikiedu.org/illustratingwikipedia">Illustrating Wikipedia</a> handbook,
-              or see <a href="http://wikiedu.org/editingwikipedia">Editing Wikipedia</a> pages 10–11.
+              Before you start, review the <a href="https://wikiedu.org/illustratingwikipedia">Illustrating Wikipedia</a> handbook,
+              or see <a href="https://wikiedu.org/editingwikipedia">Editing Wikipedia</a> pages 10–11.
             </li>
             <li>When you've reviewed those pages, take the training linked below.</li>
             <li>
@@ -264,36 +264,38 @@ essentials:
               "free stock photo" websites. Instead, you'll want to find images
               with clear proof that the creator has given permission to use their
               work. Many of these images can be found on
-              <a href="http://search.creativecommons.org/">search.creativecommons.org</a>.
+              <a href="https://search.creativecommons.org/">search.creativecommons.org</a>.
             </li>
             <li>
                Don't just upload an image to Wikipedia. Instead, upload it to
                Wikipedia's sister site for images, Wikimedia Commons. For
-               instructions, read through the <a href="http://wikiedu.org/illustratingwikipedia">Illustrating Wikipedia</a> handbook.
+               instructions, read through the <a href="https://wikiedu.org/illustratingwikipedia">Illustrating Wikipedia</a> handbook.
             </li>
           </ul>
 
       -
         if: working_in_groups
         title: Best practices for working in groups
-        kind: 1
+        kind: 3
         content: |
           <ul>
             <li>
-              Make sure everyone in the group is assigned to the same Wikipedia
-              article on the Students tab of this course page.
+              Once your group has a Wikipedia article to work on, make sure
+              everyone in the group is assigned to that article on the Students
+              tab of this course page.
             </li>
             <li>
               Select one group member whose Sandbox space you'll all share to
-              draft your article. Each person should link to that shared Sandbox
-              from their own Sandbox page. A sandbox is like any other page on
-              Wikipedia, and anyone can edit it.
+              draft your article. (It will be titled something like
+              <code>User:Diderot/sandbox</code>.) Each person should link to
+              that shared Sandbox from their own Sandbox page. A sandbox is like
+              any other page on Wikipedia, and anyone can edit it.
             </li>
             <li>
-              Wikipedia doesn't allow multiple people to edit from different
-              devices at the same time. If you're working together in person,
-              one person should add the work to the Sandbox. If you are all
-              working independently, make small edits and save often to avoid
+              Wikipedia doesn't handle multiple people editing from different
+              devices at the same time very well. If you're working together in
+              person, one person should add the work to the Sandbox. If you are
+              all working independently, make small edits and save often to avoid
               "editing conflicts" with classmates. Make sure that you're logged
               in under your own Wikipedia account while editing in your
               classmate's sandbox to ensure your edits are recorded.
@@ -308,9 +310,10 @@ essentials:
         if: explore_to_find_articles
         title: Choose possible topics
         kind: 1
+        training_module_ids: [17] # Find Your Article
         content: |
           <ul>
-            <li>Review page 6 of your <a href="http://wikiedu.org/editingwikipedia">Editing Wikipedia</a> guidebook.</li>
+            <li>Review page 6 of your <a href="https://wikiedu.org/editingwikipedia">Editing Wikipedia</a> guidebook.</li>
             <li>
               Look up 3-5 potential topics related to the course that you might
               want to update on Wikipedia. Review the content of the article and
@@ -332,7 +335,7 @@ essentials:
         content: |
           <p>It's time to choose an article and assign it to yourself.</p>
           <ul>
-            <li>Review page 6 of your <a href="http://wikiedu.org/editingwikipedia">Editing Wikipedia</a> guidebook.</li>
+            <li>Review page 6 of your <a href="https://wikiedu.org/editingwikipedia">Editing Wikipedia</a> guidebook.</li>
             <li>
               Find an article from the list of "Available Articles" on the
               <strong>Articles</strong> tab on this course page. When you find
@@ -357,6 +360,11 @@ essentials:
               </ul>
             </li>
           </ul>
+
+      -
+        if: choose_articles_from_list
+        title: Guide(s) for writing articles in your topic area
+        kind: 4 # Special subject-specific guides block
 
   - # Week five
     weight: 4
@@ -388,6 +396,11 @@ essentials:
           </ul>
 
       -
+        if: explore_to_find_articles
+        title: Guide(s) for writing articles in your topic area
+        kind: 4 # Special subject-specific guides block
+
+      -
         title: Draft your article
         kind: 1
         graded: true
@@ -408,7 +421,7 @@ essentials:
                   in detail. The first paragraph should include important, broad
                   facts about the subject. A good example is
                   <a href="https://en.wikipedia.org/wiki/Ada_Lovelace">Ada Lovelace</a>.
-                  See <a href="http://wikiedu.org/editingwikipedia">Editing Wikipedia</a>
+                  See <a href="https://wikiedu.org/editingwikipedia">Editing Wikipedia</a>
                   page 9 for more ideas.
                 </li>
               </ul>
@@ -424,7 +437,7 @@ essentials:
           </ul>
           <hr />
           <p>Keep reading your sources, too, as you prepare to write the body of the article.</p>
-          <p><strong>Resources:</strong> <a href="http://wikiedu.org/editingwikipedia">Editing Wikipedia</a> pages 7–9</p>
+          <p><strong>Resources:</strong> <a href="https://wikiedu.org/editingwikipedia">Editing Wikipedia</a> pages 7–9</p>
 
       -
         title: Everyone has started writing
@@ -454,7 +467,7 @@ essentials:
           <ul>
             <li>Keep working on transforming your article into a complete first draft. Get draft ready for peer-review. </li>
             <li>
-              If you'd like a Content Expert to review your draft, now is the time!
+              If you'd like a Wikipedia Expert to review your draft, now is the time!
               Click the "Get Help" button in <a href="https://en.wikipedia.org/wiki/Special:MyPage/sandbox">your sandbox</a> to request notes.
             </li>
           </ul>
@@ -500,7 +513,7 @@ essentials:
               tab, assign them to yourself to review.
             </li>
             <li>
-              Peer review your classmates' drafts. Leave suggestions on on the
+              Peer review your classmates' drafts. Leave suggestions on the
               Talk page of the article, or sandbox, that your fellow student is
               working on. Other editors may be reviewing your work, so look for
               their comments! Be sure to acknowledge feedback from other Wikipedians.
@@ -526,7 +539,7 @@ essentials:
               tab, assign them to yourself to review.
             </li>
             <li>
-              Peer review your classmates' drafts. Leave suggestions on on the
+              Peer review your classmates' drafts. Leave suggestions on the
               Talk page of the article, or sandbox, that your fellow student is
               working on. Other editors may be reviewing your work, so look for
               their comments! Be sure to acknowledge feedback from other Wikipedians.
@@ -554,11 +567,11 @@ essentials:
         content: |
           <p>You probably have some feedback from other students and possibly other Wikipedians. It's time to work with that feedback to improve your article!</p>
           <ul>
-            <li>Read <a href="http://wikiedu.org/editingwikipedia">Editing Wikipedia</a> pages 12 and 14.</li>
+            <li>Read <a href="https://wikiedu.org/editingwikipedia">Editing Wikipedia</a> pages 12 and 14.</li>
             <li>
               Return to your draft or article and think about the suggestions.
               Decide which ones to start implementing. Reach out to your instructor
-              or your Content Expert if you have any questions.
+              or your Wikipedia Expert if you have any questions.
             </li>
           </ul>
 
@@ -583,14 +596,13 @@ essentials:
             </li>
             <li>
               Be sure to copy text from your sandbox while the sandbox page is in
-              'Edit' or 'Edit source' mode. This ensures that the formatting is
-              transferred correctly.
+              'Edit' mode. This ensures that the formatting is transferred correctly.
             </li>
           </ul>
           <p><strong>Creating a new article?</strong></p>
           <ul>
-            <li>Read <a href="http://wikiedu.org/editingwikipedia">Editing Wikipedia</a> page 13, and follow those steps to move your article from your Sandbox to Mainspace.</li>
-            <li>You can also review the <a href="../../../training/students/sandboxes">Sandboxes and Mainspace</a> online training.</li>
+            <li>Read <a href="https://wikiedu.org/editingwikipedia">Editing Wikipedia</a> page 13, and follow those steps to move your article from your Sandbox to Mainspace.</li>
+            <li>You can also review the <a href="https://dashboard.wikiedu.org/training/students/sandboxes">Sandboxes and Mainspace</a> online training.</li>
           </ul>
 
       -
@@ -611,14 +623,20 @@ essentials:
       -
         title: Continue improving your article
         kind: 1
+        training_module_ids: [6] # Images and multimedia
         content: |
           <p>Do additional research and writing to make further improvements to your article, based on suggestions and your own critique.</p>
           <ul>
             <li>
-              Read <a href="http://wikiedu.org/editingwikipedia">Editing Wikipedia</a>
+              Read <a href="https://wikiedu.org/editingwikipedia">Editing Wikipedia</a>
               page 12 to see how to create links from your article to others,
               and from other articles to your own. Try to link to 3–5 articles,
               and link to your article from 2–3 other articles.
+            </li>
+            <li>
+              Consider adding an image to your article. Wikipedia has strict rules
+              about what media can be added, so make sure to take <em>Contributing Images and Media Files</em>
+              training before you upload an image.
             </li>
           </ul>
 
@@ -632,7 +650,7 @@ essentials:
           <p>
             Continue to expand and improve your work, and format your article to
             match Wikipedia's tone and standards. Remember to contact your
-            Content Expert at any time if you need further help!
+            Wikipedia Expert at any time if you need further help!
           </p>
 
       -
@@ -694,8 +712,8 @@ essentials:
         content: |
           <p>It's the final week to develop your article.</p>
           <ul>
-            <li>Read <a href="http://wikiedu.org/editingwikipedia">Editing Wikipedia</a> page 15 to review a final check-list before completing your assignment.</li>
-            <li>Don't forget that you can ask for help from your Content Expert at any time!</li>
+            <li>Read <a href="https://wikiedu.org/editingwikipedia">Editing Wikipedia</a> page 15 to review a final check-list before completing your assignment.</li>
+            <li>Don't forget that you can ask for help from your Wikipedia Expert at any time!</li>
           </ul>
 
       -

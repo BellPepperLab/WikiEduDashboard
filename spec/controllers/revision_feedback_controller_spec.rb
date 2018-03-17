@@ -1,10 +1,12 @@
 # frozen_string_literal: true
+
 require 'rails_helper'
 
 describe RevisionFeedbackController do
   describe '#index' do
-    # The pageid is arbitrary and tests if valid feedback is received
-    let(:params) { { 'title': 'Quantum_Chemistry' } }
+    let!(:course) { create(:course, id: 1) }
+    let(:assignment) { create(:assignment, id: 1, course_id: course.id) }
+    let(:params) { { 'title': 'Quantum_Chemistry', 'assignment_id': assignment.id } }
 
     context 'When the article exists' do
       before do
@@ -19,11 +21,6 @@ describe RevisionFeedbackController do
 
       it 'calls RevisionFeedbackService with features' do
         VCR.use_cassette 'ores_features' do
-
-          # Checks if the RevisionFeedbackService is initialized with valid features
-          expect_any_instance_of(RevisionFeedbackService).to receive(:initialize)
-            .with(have_key('feature.enwiki.revision.cite_templates'))
-
           # Checks if a valid feedback is received from RevisionFeedbackService
           expect_any_instance_of(RevisionFeedbackService).to receive(:feedback)
             .and_return(have_at_least(1))
