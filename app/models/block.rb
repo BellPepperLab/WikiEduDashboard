@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: blocks
@@ -14,8 +15,6 @@
 #  order               :integer
 #  due_date            :date
 #  training_module_ids :text(65535)
-#  graded              :boolean
-#  points              :string(255)
 #
 
 require "#{Rails.root}/lib/block_date_manager"
@@ -31,7 +30,8 @@ class Block < ActiveRecord::Base
     'in_class'   => 0,
     'assignment' => 1,
     'milestone'  => 2,
-    'custom'     => 3
+    'custom'     => 3,
+    'handouts'   => 4
   }.freeze
 
   def training_modules

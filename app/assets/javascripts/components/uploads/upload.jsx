@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const Upload = ({ upload, linkUsername }) => {
   let details;
@@ -41,7 +42,7 @@ const Upload = ({ upload, linkUsername }) => {
     <tr className="upload">
       <td>
         <a href={upload.url} target="_blank">
-          <img src={imageFile} />
+          <img src={imageFile} alt="" />
         </a>
         {details}
       </td>
@@ -51,14 +52,14 @@ const Upload = ({ upload, linkUsername }) => {
       <td className="desktop-only-tc">{uploader}</td>
       <td className="desktop-only-tc">{upload.usage_count}</td>
       <td className="desktop-only-tc">{moment(upload.uploaded_at).format('YYYY-MM-DD   h:mm A')}</td>
-      <td></td>
+      <td />
     </tr>
   );
 };
 
 Upload.propTypes = {
-  upload: React.PropTypes.object,
-  linkUsername: React.PropTypes.bool
+  upload: PropTypes.object,
+  linkUsername: PropTypes.bool
 };
 
 export default Upload;

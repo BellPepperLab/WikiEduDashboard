@@ -1,19 +1,15 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
-const App = React.createClass({
-  displayName: 'App',
+const App = ({ children }) => (
+  <div>
+    {children}
+  </div>
+);
 
-  propTypes: {
-    children: React.PropTypes.node
-  },
+App.propTypes = {
+  children: PropTypes.node
+};
 
-  render() {
-    return (
-      <div>
-        {this.props.children}
-      </div>
-    );
-  }
-});
 
 export default App;

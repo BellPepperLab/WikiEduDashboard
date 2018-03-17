@@ -1,10 +1,12 @@
 import React from 'react';
+import createReactClass from 'create-react-class';
+import PropTypes from 'prop-types';
 
-const CourseStatsDownloadModal = React.createClass({
+const CourseStatsDownloadModal = createReactClass({
   displayName: 'CourseStatsDownloadModal',
 
   propTypes: {
-    course: React.PropTypes.object
+    course: PropTypes.object
   },
 
   getInitialState() {
@@ -32,7 +34,7 @@ const CourseStatsDownloadModal = React.createClass({
 
     return (
       <div className="basic-modal course-stats-download-modal">
-        <button onClick={this.hide} className="pull-right article-viewer-button icon-close"></button>
+        <button onClick={this.hide} className="pull-right article-viewer-button icon-close" />
         <h2>{I18n.t('courses.data_download_info')}</h2>
         <hr />
         <p>
