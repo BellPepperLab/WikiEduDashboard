@@ -5,6 +5,7 @@
 # Author: Elftrkn
 # Author: HakanIST
 # Author: Hbseren
+# Author: Incelemeelemani
 # Author: JackUKElliott
 # Author: Katpatuka
 # Author: KorkmazO
@@ -22,6 +23,8 @@ tr:
   activity:
     edited_by: Düzenleyen
     label: Etkinlik
+  articles:
+    wiki: Wiki
   blocks:
     milestones:
       title: Kilometre taşları
@@ -30,6 +33,7 @@ tr:
   courses:
     creator:
       end_date: Bitiş tarihi
+      role_description_placeholder: öğretim görevlisi, asistan vb.
       start_date: Başlangıç tarihi
     enable_chat: Sohbeti etkinleştir
     courses_enrolled: Kaydolunan dersler
@@ -51,6 +55,7 @@ tr:
     date_time: Tariq/Saat
     edited_by: Düzenleyen
     title: Başlık
+    see_more: Daha fazla bilgi
   timeline:
     delete_weeks_confirmation: |-
       Tüm zaman çizelgesine kaldırıp baştan başlamak istediğine emin misin?

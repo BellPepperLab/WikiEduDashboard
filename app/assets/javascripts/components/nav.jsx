@@ -1,8 +1,10 @@
 import React from 'react';
+import createReactClass from 'create-react-class';
 import CustomLink from './CustomLink.jsx';
 import HamburgerMenu from './hamburger_menu.jsx';
 import Uls from './uls_box.jsx';
-const Nav = React.createClass({
+
+const Nav = createReactClass({
   displayName: 'Nav',
 
   getInitialState() {
@@ -14,7 +16,6 @@ const Nav = React.createClass({
     const userSignedIn = $('#nav_root').data('usersignedin');
     const ifAdmin = $('#nav_root').data('ifadmin');
     const trainingUrl = $('#nav_root').data('trainingurl');
-    const disableTraining = $('#nav_root').data('disable_training');
     const helpDisabled = $('#nav_root').data('help_disabled');
     const askUrl = $('#nav_root').data('ask_url');
     const userPermissions = $('#nav_root').data('user_permissions');
@@ -33,7 +34,6 @@ const Nav = React.createClass({
       userSignedIn: userSignedIn,
       ifAdmin: ifAdmin,
       trainingUrl: trainingUrl,
-      disableTraining: disableTraining,
       helpDisabled: helpDisabled,
       askUrl: askUrl,
       wikiEd: wikiEd,
@@ -71,7 +71,6 @@ const Nav = React.createClass({
     let navClass;
     let myDashboard;
     let forAdmin;
-    let disableTraining;
     let help;
     let Sandbox;
     let wikiEd;
@@ -108,7 +107,7 @@ const Nav = React.createClass({
               <input type="text" name="q" id="q" defaultValue="" placeholder={I18n.t('application.search')} />
               <input name="source" type="hidden" defaultValue="nav_ask_form" />
               <button type="submit">
-                <i className="icon icon-search"></i>
+                <i className="icon icon-search" />
               </button>
             </form>
           </div>
@@ -118,7 +117,7 @@ const Nav = React.createClass({
       loggingLinks = (
         <li>
           <a href={this.state.omniauthUrl}>
-            <i className="icon icon-wiki-logo"></i>
+            <i className="icon icon-wiki-logo" />
             {I18n.t('application.log_in')}
             <span className="expand">
               &nbsp;{I18n.t('application.sign_up_log_in_extended')}
@@ -141,13 +140,6 @@ const Nav = React.createClass({
         </li>
       );
     }
-    if (this.state.disableTraining === false) {
-      disableTraining = (
-        <li>
-          <CustomLink to={this.state.trainingUrl} name={I18n.t('application.training')} clickedElement="training" />
-        </li>
-      );
-    }
     if ((this.state.userSignedIn || this.state.helpDisabled) === false) {
       help = (
         <li>
@@ -166,7 +158,7 @@ const Nav = React.createClass({
       wikiEd = (
         <span id="span_wikied">
           <li>
-            <CustomLink to="https://meta.wikimedia.org/wiki/Programs_%26_Events_Dashboard" name={I18n.t('application.documentation')} target="_blank" />
+            <CustomLink to="https://meta.wikimedia.org/wiki/Special:MyLanguage/Programs_%26_Events_Dashboard" name={I18n.t('application.documentation')} target="_blank" />
           </li>
           <li>
             <CustomLink to="/feedback" name={I18n.t('application.report_problem')} target="_blank" />
@@ -193,7 +185,6 @@ const Nav = React.createClass({
             userSignedIn = {this.state.userSignedIn}
             ifAdmin = {this.state.ifAdmin}
             trainingUrl = {this.state.trainingUrl}
-            disableTraining = {this.state.disableTraining}
             helpDisabled = {this.state.helpDisabled}
             askUrl = {this.state.askUrl}
             wikiEd = {this.state.wikiEd}
@@ -222,7 +213,9 @@ const Nav = React.createClass({
                 </li>
                 {myDashboard}
                 {forAdmin}
-                {disableTraining}
+                <li>
+                  <CustomLink to={this.state.trainingUrl} name={I18n.t('application.training')} clickedElement="training" />
+                </li>
                 {Sandbox}
                 {help}
                 {wikiEd}

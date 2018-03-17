@@ -1,11 +1,11 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { slide as Menu } from 'react-burger-menu';
 import CustomLink from './CustomLink.jsx';
 
-const HamburgerMenu = ({ rootUrl, logoPath, exploreUrl, exploreName, userSignedIn, ifAdmin, trainingUrl, disableTraining, helpDisabled, askUrl, wikiEd, userPermissions, languageSwitcherEnabled, currentUser, destroyUrl, omniauthUrl }) => {
+const HamburgerMenu = ({ rootUrl, logoPath, exploreUrl, exploreName, userSignedIn, ifAdmin, trainingUrl, helpDisabled, askUrl, wikiEd, userPermissions, languageSwitcherEnabled, currentUser, destroyUrl, omniauthUrl }) => {
   let myDashboard;
   let forAdmin;
-  let training;
   let help;
   let sandbox;
   let programsDashboard;
@@ -42,7 +42,7 @@ const HamburgerMenu = ({ rootUrl, logoPath, exploreUrl, exploreName, userSignedI
             <input type="text" name="q" id="q" defaultValue="" placeholder={I18n.t('application.search')} />
             <input name="source" type="hidden" defaultValue="nav_ask_form" />
             <button type="submit">
-              <i className="icon icon-search"></i>
+              <i className="icon icon-search" />
             </button>
           </form>
         </div>
@@ -52,7 +52,7 @@ const HamburgerMenu = ({ rootUrl, logoPath, exploreUrl, exploreName, userSignedI
     loggingLinks = (
       <li>
         <a href={omniauthUrl}>
-          <i className="icon icon-wiki-logo"></i>
+          <i className="icon icon-wiki-logo" />
           {I18n.t('application.log_in')}
           <span className="expand">
             &nbsp;{I18n.t('application.sign_up_log_in_extended')}
@@ -72,13 +72,6 @@ const HamburgerMenu = ({ rootUrl, logoPath, exploreUrl, exploreName, userSignedI
     forAdmin = (
       <li>
         <CustomLink to="/admin" name="Admin" />
-      </li>
-    );
-  }
-  if (disableTraining === false) {
-    training = (
-      <li>
-        <CustomLink to={trainingUrl} name={I18n.t('application.training')} clickedElement="training" />
       </li>
     );
   }
@@ -123,7 +116,9 @@ const HamburgerMenu = ({ rootUrl, logoPath, exploreUrl, exploreName, userSignedI
               <CustomLink to={exploreUrl} name={exploreName} clickedElement="explore" />
               {myDashboard}
               {forAdmin}
-              {training}
+              <li>
+                <CustomLink to={trainingUrl} name={I18n.t('application.training')} clickedElement="training" />
+              </li>
               {sandbox}
               {help}
               {programsDashboard}
@@ -139,22 +134,21 @@ const HamburgerMenu = ({ rootUrl, logoPath, exploreUrl, exploreName, userSignedI
 
 
 HamburgerMenu.propTypes = {
-  rootUrl: React.PropTypes.string,
-  logoPath: React.PropTypes.string,
-  exploreUrl: React.PropTypes.string,
-  exploreName: React.PropTypes.string,
-  userSignedIn: React.PropTypes.bool,
-  ifAdmin: React.PropTypes.bool,
-  trainingUrl: React.PropTypes.string,
-  disableTraining: React.PropTypes.bool,
-  helpDisabled: React.PropTypes.bool,
-  askUrl: React.PropTypes.string,
-  wikiEd: React.PropTypes.bool,
-  userPermissions: React.PropTypes.bool,
-  languageSwitcherEnabled: React.PropTypes.bool,
-  currentUser: React.PropTypes.string,
-  destroyUrl: React.PropTypes.string,
-  omniauthUrl: React.PropTypes.string
+  rootUrl: PropTypes.string,
+  logoPath: PropTypes.string,
+  exploreUrl: PropTypes.string,
+  exploreName: PropTypes.string,
+  userSignedIn: PropTypes.bool,
+  ifAdmin: PropTypes.bool,
+  trainingUrl: PropTypes.string,
+  helpDisabled: PropTypes.bool,
+  askUrl: PropTypes.string,
+  wikiEd: PropTypes.bool,
+  userPermissions: PropTypes.bool,
+  languageSwitcherEnabled: PropTypes.bool,
+  currentUser: PropTypes.string,
+  destroyUrl: PropTypes.string,
+  omniauthUrl: PropTypes.string
 };
 
 export default HamburgerMenu;
