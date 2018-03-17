@@ -58,6 +58,8 @@ Rails.application.routes.draw do
         :as => :notify_untrained, constraints: { id: /.*/ }
     get 'courses/*id/needs_update' =>  'courses#needs_update',
         :as => :needs_update, constraints: { id: /.*/ }
+    get 'courses/*id/ores_plot' =>  'ores_plot#course_plot',
+        constraints: { id: /.*/ }
     get 'courses/*id/check' => 'courses#check',
         :as => :check, constraints: { id: /.*/ }
     match 'courses/*id/campaign' => 'courses#list',
@@ -80,6 +82,10 @@ Rails.application.routes.draw do
         id: /.*/
       }
   end
+
+  # Categories
+  post 'categories' => 'categories#add_category'
+  delete 'categories' => 'categories#remove_category'
 
   get 'lookups/campaign(.:format)' => 'lookups#campaign'
   get 'lookups/tag(.:format)' => 'lookups#tag'
@@ -124,13 +130,13 @@ Rails.application.routes.draw do
   # Reports and analytics
   get 'analytics(/*any)' => 'analytics#index'
   post 'analytics(/*any)' => 'analytics#results'
+  get 'usage' => 'analytics#usage'
   get 'ungreeted' => 'analytics#ungreeted'
   get 'course_csv' => 'analytics#course_csv'
   get 'course_edits_csv' => 'analytics#course_edits_csv'
   get 'course_uploads_csv' => 'analytics#course_uploads_csv'
   get 'course_students_csv' => 'analytics#course_students_csv'
   get 'course_articles_csv' => 'analytics#course_articles_csv'
-
 
   # Campaigns
   resources :campaigns, param: :slug, except: :show do
@@ -142,6 +148,7 @@ Rails.application.routes.draw do
       get 'students'
       get 'instructors'
       get 'courses'
+      get 'ores_plot'
       get 'articles_csv'
       put 'add_organizer'
       put 'remove_organizer'
@@ -223,7 +230,6 @@ Rails.application.routes.draw do
   get '/surveys/results' => 'surveys#results_index', as: 'results'
   resources :survey_assignments, path: 'surveys/assignments'
   post '/survey_assignments/:id/send_test_email' => 'survey_assignments#send_test_email', as: 'send_test_email'
-  post '/surveys/clone/:id' => 'surveys#clone'
   put '/surveys/question_position' => 'questions#update_position'
   get '/survey/results/:id' => 'surveys#results', as: 'survey_results'
   get '/survey/question/results/:id' => 'questions#results', as: 'question_results'

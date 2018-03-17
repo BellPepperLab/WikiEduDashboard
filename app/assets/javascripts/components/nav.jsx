@@ -1,8 +1,10 @@
 import React from 'react';
+import createReactClass from 'create-react-class';
 import CustomLink from './CustomLink.jsx';
 import HamburgerMenu from './hamburger_menu.jsx';
 import Uls from './uls_box.jsx';
-const Nav = React.createClass({
+
+const Nav = createReactClass({
   displayName: 'Nav',
 
   getInitialState() {
@@ -105,7 +107,7 @@ const Nav = React.createClass({
               <input type="text" name="q" id="q" defaultValue="" placeholder={I18n.t('application.search')} />
               <input name="source" type="hidden" defaultValue="nav_ask_form" />
               <button type="submit">
-                <i className="icon icon-search"></i>
+                <i className="icon icon-search" />
               </button>
             </form>
           </div>
@@ -115,7 +117,7 @@ const Nav = React.createClass({
       loggingLinks = (
         <li>
           <a href={this.state.omniauthUrl}>
-            <i className="icon icon-wiki-logo"></i>
+            <i className="icon icon-wiki-logo" />
             {I18n.t('application.log_in')}
             <span className="expand">
               &nbsp;{I18n.t('application.sign_up_log_in_extended')}
@@ -156,7 +158,7 @@ const Nav = React.createClass({
       wikiEd = (
         <span id="span_wikied">
           <li>
-            <CustomLink to="https://meta.wikimedia.org/wiki/Programs_%26_Events_Dashboard" name={I18n.t('application.documentation')} target="_blank" />
+            <CustomLink to="https://meta.wikimedia.org/wiki/Special:MyLanguage/Programs_%26_Events_Dashboard" name={I18n.t('application.documentation')} target="_blank" />
           </li>
           <li>
             <CustomLink to="/feedback" name={I18n.t('application.report_problem')} target="_blank" />
