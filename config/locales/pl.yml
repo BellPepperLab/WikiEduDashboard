@@ -126,6 +126,7 @@ pl:
     view_on_wiki: Zobacz na wiki
     views_added: Dodano %{count} nowych odsłon do hasła %{title}
     edit_size: Edytuj rozmiar
+    wiki: Wiki
     wp10: Kompletność
     wp10_doc: Wynik oceny 'Kompletności strukturalnej' oznacza stopień, w jakim artykuł
       przypomina dojrzały artykuł Wikipedii, oceniany za pomocą algorytmów sztucznej
@@ -282,6 +283,7 @@ pl:
         to kilka godzin.
     current: Aktualne kursy
     delete_course: Usuń kurs
+    delete_suggestion: Usuń
     delete_course_instructions: Możesz usunąć tę stronę jeśli najpierw usuniesz ją
       ze wszystkich kampanii.
     dismiss_survey: Odrzuć
@@ -475,6 +477,7 @@ pl:
       również sam adres URL niniejszej strony, co może mieć wpływ na już rozesłane
       linki. Czy na pewno chcesz kontynuować?
   metrics:
+    last_update: Ostatnia aktualizacja
     activity: Ostatnia aktywność
     are_trained: uczestników ukończyło wymagane etapy szkolenia
     articles_created: Utworzone artykuły
@@ -542,6 +545,7 @@ pl:
     time_doc: Czas każdej zmiany w Twoim czasie lokalnym
     title: Tytuł
     view_on_wiki: Zobacz porównanie wersji na wiki
+    see_more: Zobacz więcej
   suggestions:
     editing: Sugestie edycyjne
     suggestion_docs:

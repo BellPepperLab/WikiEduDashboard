@@ -1,4 +1,6 @@
 import React from 'react';
+import createReactClass from 'create-react-class';
+import PropTypes from 'prop-types';
 import ServerActions from '../../actions/server_actions.js';
 
 import AssignCell from './assign_cell.jsx';
@@ -7,18 +9,18 @@ import RevisionStore from '../../stores/revision_store.js';
 import TrainingStatusStore from '../../stores/training_status_store.js';
 import { trunc } from '../../utils/strings';
 
-const Student = React.createClass({
+const Student = createReactClass({
   displayName: 'Student',
 
   propTypes: {
-    student: React.PropTypes.object.isRequired,
-    course: React.PropTypes.object.isRequired,
-    current_user: React.PropTypes.object,
-    editable: React.PropTypes.bool,
-    assigned: React.PropTypes.array,
-    reviewing: React.PropTypes.array,
-    isOpen: React.PropTypes.bool,
-    toggleDrawer: React.PropTypes.func
+    student: PropTypes.object.isRequired,
+    course: PropTypes.object.isRequired,
+    current_user: PropTypes.object,
+    editable: PropTypes.bool,
+    assigned: PropTypes.array,
+    reviewing: PropTypes.array,
+    isOpen: PropTypes.bool,
+    toggleDrawer: PropTypes.func
   },
 
   stop(e) {
@@ -71,7 +73,8 @@ const Student = React.createClass({
     let reviewButton;
     if (this.props.course.published) {
       assignButton = (
-        <AssignCell {...this.props}
+        <AssignCell
+          {...this.props}
           role={0}
           editable={this.props.editable}
           assignments={this.props.assigned}
@@ -79,7 +82,8 @@ const Student = React.createClass({
       );
 
       reviewButton = (
-        <AssignCell {...this.props}
+        <AssignCell
+          {...this.props}
           role={1}
           editable={this.props.editable}
           assignments={this.props.reviewing}
@@ -106,7 +110,7 @@ const Student = React.createClass({
         <td className="desktop-only-tc">
           {this.props.student.character_sum_ms} | {this.props.student.character_sum_us} | {this.props.student.character_sum_draft}
         </td>
-        <td><button className="icon icon-arrow table-expandable-indicator" ></button></td>
+        <td><button className="icon icon-arrow table-expandable-indicator" /></td>
       </tr>
     );
   }
