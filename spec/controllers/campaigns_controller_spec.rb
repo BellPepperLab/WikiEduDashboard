@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'rails_helper'
 
 describe CampaignsController do
@@ -268,6 +269,23 @@ describe CampaignsController do
     end
   end
 
+  describe '#articles_csv' do
+    let(:course) { create(:course) }
+    let(:campaign) { create(:campaign) }
+    let(:article) { create(:article) }
+    let(:request_params) { { slug: campaign.slug, format: :csv } }
+
+    before do
+      campaign.courses << course
+      create(:articles_course, article: article, course: course)
+    end
+    it 'returns a csv of course data' do
+      get :articles_csv, params: request_params
+      expect(response.body).to have_content(course.slug)
+      expect(response.body).to have_content(article.title)
+    end
+  end
+
   describe '#overview' do
     render_views
     let(:user) { create(:user) }
@@ -335,6 +353,11 @@ describe CampaignsController do
       allow(controller).to receive(:current_user).and_return(admin)
       get :programs, params: { slug: campaign.slug }
       expect(response.body).to have_content(I18n.t('assignments.remove'))
+    end
+
+    it 'searches title, school, and term of campaign courses' do
+      get :programs, params: { slug: campaign.slug, courses_query: course.title }
+      expect(response.body).to have_content(course.title)
     end
   end
 end
